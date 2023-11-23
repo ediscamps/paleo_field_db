@@ -3,11 +3,12 @@
 # https://github.com/ediscamps/paleo_field_db 
 # E. Discamps emmanuel.discamps@cnrs.fr
 
-
-setwd("C:/Boulot/MyCore/_Sites en cours/Combe Grenal/Combe Grenal MyCore/CG TERRAIN 2023/THEO")
+library("this.path")
+setwd(here())
 
 baseWD <- getwd()
 
+## you should create two folders in your working directory : /csv_to_import and /csv_imported
 
 # importing new data from CSVs
 setwd("./csv_to_import")
@@ -99,7 +100,46 @@ dataOK$Trench = case_when(
 
 dataOK$Yminus <- -dataOK$Y
 dataOK$Annee <- "2023"
-dataOK$CarreVrai <- ""
+
+
+
+#CALCULATING TRUE SQUARES
+part1 <- case_when(
+  (dataOK$Y >= 104 & dataOK$Y < 105) ~ "F",
+  (dataOK$Y >= 103 & dataOK$Y < 104) ~ "G",
+  (dataOK$Y >= 102 & dataOK$Y < 103) ~ "H",
+  (dataOK$Y >= 101 & dataOK$Y < 102) ~ "I",
+  (dataOK$Y >= 100 & dataOK$Y < 101) ~ "J",
+  (dataOK$Y >= 99 & dataOK$Y < 100) ~ "K",
+  (dataOK$Y >= 105 | dataOK$Y < 99) ~ "NA")
+
+part2 <- case_when(
+    (dataOK$X >= 52 & dataOK$X < 53) ~ "52",
+    (dataOK$X >= 51 & dataOK$X < 52) ~ "51",
+    (dataOK$X >= 50 & dataOK$X < 51) ~ "50",
+    (dataOK$X >= 49 & dataOK$X < 50) ~ "49",
+    (dataOK$X >= 53 | dataOK$X < 49) ~ "NA")
+
+subX <- dataOK$X - floor(dataOK$X)
+subY <- dataOK$Y - floor(dataOK$Y)
+
+part3 <- case_when(
+  (subX < 0.5 & subY >= 0.5) ~ "A",
+  (subX >= 0.5 & subY >= 0.5) ~ "B",
+  (subX < 0.5 & subY < 0.5) ~ "C",
+  (subX >= 0.5 & subY < 0.5) ~ "D")
+
+dataOK$CarreVrai <- paste0(part1, part2, part3)
+rm(part1)
+rm(part2)
+rm(part3)
+rm(subX)
+rm(subY)
+
+# calculating number of cases when CarreVrai correspond to CarreTheo
+table(dataOK$CarreVrai == dataOK$CarreTheo)
+
+
 dataOK$offsetcorr <- ""
 dataOK$posapprox <- ""
 dataOK$FabID <- ""
