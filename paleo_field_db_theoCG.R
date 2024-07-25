@@ -142,6 +142,7 @@ rm(subY)
 # calculating number of cases when CarreVrai correspond to CarreTheo
 table(dataOK$CarreVrai == dataOK$CarreTheo)
 
+
 #REPLACING CODES
 dataOK$Code <- case_when(
   (dataOK$Code =="F") ~ "FAUNE",
@@ -149,7 +150,8 @@ dataOK$Code <- case_when(
   (dataOK$Code =="QZ") ~ "QUARTZ",
   (dataOK$Code =="Seau") ~ "SEAU",
   (dataOK$Code =="seau") ~ "SEAU",
-  (dataOK$Code =="Autre") ~ "AUTRE")
+  (dataOK$Code =="Autre") ~ "AUTRE",
+  .default = dataOK$Code)
 
 #creating other columns in dataOK
 dataOK$Yminus <- -dataOK$Y
@@ -214,6 +216,13 @@ if(file.exists("CG24_THEO.xlsx")){
   dataCOIN <- rbind(previous_dataCOIN, dataCOIN)
 }
 
+#use the following lines if you are not importing new data, but want to edit your full database
+# dataOK <- previous_dataOK
+# dataTOPO <- previous_dataTOPO
+# dataCOIN <- previous_dataCOIN
+# rm(previous_dataOK)
+# rm(previous_dataTOPO)
+# rm(previous_dataCOIN)
 
 #writing Excel file
 require(WriteXLS)
