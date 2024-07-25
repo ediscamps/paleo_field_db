@@ -72,7 +72,16 @@ dataOK <- cbind(dataOK[,1:5],codeTMP)
 dataCOIN <- cbind(dataCOIN[,1:5],codeTMPCOIN)
 
 #CREATING TRENCHES
-dataOK$Trench = case_when(
+#TrenchVrai, based on the true coordinates
+dataOK$TrenchVrai = case_when(
+  (dataOK$X >= 51.5 & dataOK$X < 52) ~ "51ouest",
+  (dataOK$X >= 51 & dataOK$X < 51.5) ~ "51est",
+  (dataOK$X >= 50.5 & dataOK$X < 51) ~ "50ouest",
+  (dataOK$X >= 50 & dataOK$X < 50.5) ~ "50est",
+  .default = "Others")
+
+#TrenchTheo, based on the square used in the field
+dataOK$TrenchTheo = case_when(
   (dataOK$CarreTheo == "G50A") ~ "50est",
   (dataOK$CarreTheo == "G50B") ~ "50ouest",
   (dataOK$CarreTheo == "G50C") ~ "50est",
@@ -104,7 +113,8 @@ dataOK$Trench = case_when(
   (dataOK$CarreTheo == "I51B") ~ "51ouest",
   (dataOK$CarreTheo == "I51D") ~ "51ouest",
   (dataOK$CarreTheo == "J51B") ~ "51ouest",
-  (dataOK$CarreTheo == "J51D") ~ "51ouest")
+  (dataOK$CarreTheo == "J51D") ~ "51ouest",
+  .default = "Others")
 
 #CALCULATING TRUE SQUARES
 part1 <- case_when(
@@ -148,6 +158,7 @@ dataOK$Code <- case_when(
   (dataOK$Code =="F") ~ "FAUNE",
   (dataOK$Code =="Si") ~ "SILEX",
   (dataOK$Code =="QZ") ~ "QUARTZ",
+  (dataOK$Code =="Qz") ~ "QUARTZ",
   (dataOK$Code =="Seau") ~ "SEAU",
   (dataOK$Code =="seau") ~ "SEAU",
   (dataOK$Code =="Autre") ~ "AUTRE",
@@ -172,13 +183,13 @@ dataOK <- cbind(dataOK$Annee,dataOK[,1:4],dataOK$Yminus, dataOK$Z,dataOK$Code,
                 dataOK$CarreVrai, dataOK$CarreTheo, dataOK$Dec,
                 dataOK$US, dataOK$UA,
                 dataOK$offsetcorr, dataOK$posapprox, dataOK$Notes,
-                dataOK$FabID, dataOK$Orient, dataOK$Pendage,
-                dataOK$Trench)
+                dataOK$FabID, dataOK$Orient, dataOK$Pendage,dataOK$TrenchVrai,
+                dataOK$TrenchTheo)
 
 colnames(dataOK) <- c("Year","Filename","Point","X","Y","Yminus","Z","Code",
                       "CarreVrai", "CarreTheo", "Dec",
                       "USfield", "UA","offsetcorr", "posapprox", "Notes",
-                      "FabID", "Orient", "Pendage","Trench")
+                      "FabID", "Orient", "Pendage","TrenchVrai","TrenchTheo")
 
 
 #moving CSVs
@@ -200,7 +211,7 @@ if(file.exists("CG24_THEO.xlsx")){
                                               rep("numeric",4), 
                                               rep("text",10),
                                               rep("numeric",2),
-                                              "text"))
+                                              rep("text",2)))
   previous_dataTOPO <- read_excel("CG24_THEO.xlsx", sheet = "dataTOPO")
   previous_dataCOIN <- read_excel("CG24_THEO.xlsx", sheet = "dataCOIN")
   list_sheets <- excel_sheets("CG24_THEO.xlsx")
