@@ -242,7 +242,7 @@ WriteXLS(c("dataOK","dataTOPO","dataCOIN","notes"),"CG24_THEO.xlsx")
 
 #exporting bucket points
 require(WriteXLS)
-WriteXLS(filter(dataOK, Code =="Seau"),"CG24_seaux.xlsx")
+WriteXLS(filter(dataOK, Code =="SEAU"),"CG24_seaux.xlsx")
 
 
 ##RUNNING SEAHORS for checking
