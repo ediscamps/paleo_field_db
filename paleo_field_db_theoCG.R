@@ -142,6 +142,14 @@ rm(subY)
 # calculating number of cases when CarreVrai correspond to CarreTheo
 table(dataOK$CarreVrai == dataOK$CarreTheo)
 
+#REPLACING CODES
+dataOK$Code <- case_when(
+  (dataOK$Code =="F") ~ "FAUNE",
+  (dataOK$Code =="Si") ~ "SILEX",
+  (dataOK$Code =="QZ") ~ "QUARTZ",
+  (dataOK$Code =="Seau") ~ "SEAU",
+  (dataOK$Code =="seau") ~ "SEAU",
+  (dataOK$Code =="Autre") ~ "AUTRE")
 
 #creating other columns in dataOK
 dataOK$Yminus <- -dataOK$Y
