@@ -2,7 +2,7 @@
 ### paleo_field_db_theoCG : merging field data to create the general spatial database, adapted to Combe Grenal excavations
 # https://github.com/ediscamps/paleo_field_db 
 # E. Discamps emmanuel.discamps@cnrs.fr
-# last edit: 25th July 2024
+# last edit: 24th July 2026
 
 library("this.path")
 setwd(here())
@@ -34,8 +34,7 @@ dataTOT <- bind_rows(newdataLIST)
 colnames(dataTOT) <- c("Filename", "Point","X","Y","Z","Code")
 
 #extracting TOPO (topographic points taken in the field that should be kept) 
-dataTOPO <- filter(dataTOT, Code == "TOPO")
-dataTOPO <- filter(dataTOT, Code == "topo")
+dataTOPO <- filter(dataTOT, Code %in% c("TOPO", "topo"))
 
 #extracting COIN (altitudes on the corners of a square taken at the end of a décapage)
 dataCOIN <- filter(dataTOT, grepl("-", dataTOT$Point))
@@ -43,6 +42,7 @@ dataCOIN <- filter(dataTOT, grepl("-", dataTOT$Point))
 #creating dataOK (only archaeological objects and center of buckets)
 #removing toponulle (topographic points taken in the field that should not be kept), REPERES, TOPO and COIN
 dataOK <- subset(dataTOT, Code != "toponulle")
+dataOK <- subset(dataOK, Code != "toponul")
 dataOK <- subset(dataOK, Code != "toponulle ")
 dataOK <- subset(dataOK, Code != "TOPONULLE")
 dataOK <- subset(dataOK, Code != "toonulle")
@@ -114,6 +114,142 @@ dataOK$TrenchTheo = case_when(
   (dataOK$CarreTheo == "I51D") ~ "51ouest",
   (dataOK$CarreTheo == "J51B") ~ "51ouest",
   (dataOK$CarreTheo == "J51D") ~ "51ouest",
+  
+  #subsquares xA
+  (dataOK$CarreTheo == "G50AA") ~ "50est",
+  (dataOK$CarreTheo == "G50BA") ~ "50ouest",
+  (dataOK$CarreTheo == "G50CA") ~ "50est",
+  (dataOK$CarreTheo == "G50DA") ~ "50ouest",
+  (dataOK$CarreTheo == "H50AA") ~ "50est",
+  (dataOK$CarreTheo == "H50BA") ~ "50ouest",
+  (dataOK$CarreTheo == "H50CA") ~ "50est",
+  (dataOK$CarreTheo == "H50DA") ~ "50ouest",
+  (dataOK$CarreTheo == "I50AA") ~ "50est",
+  (dataOK$CarreTheo == "I50BA") ~ "50ouest",
+  (dataOK$CarreTheo == "I50CA") ~ "50est",
+  (dataOK$CarreTheo == "I50DA") ~ "50ouest",
+  (dataOK$CarreTheo == "J50AA") ~ "50est",
+  (dataOK$CarreTheo == "J50BA") ~ "50ouest",
+  (dataOK$CarreTheo == "J50CA") ~ "50est",
+  (dataOK$CarreTheo == "J50DA") ~ "50ouest",
+  (dataOK$CarreTheo == "G51AA") ~ "51est",
+  (dataOK$CarreTheo == "G51CA") ~ "51est",
+  (dataOK$CarreTheo == "H51AA") ~ "51est",
+  (dataOK$CarreTheo == "H51CA") ~ "51est",  
+  (dataOK$CarreTheo == "I51AA") ~ "51est",
+  (dataOK$CarreTheo == "I51CA") ~ "51est",
+  (dataOK$CarreTheo == "J51AA") ~ "51est",
+  (dataOK$CarreTheo == "J51CA") ~ "51est",
+  (dataOK$CarreTheo == "G51BA") ~ "51ouest",
+  (dataOK$CarreTheo == "G51DA") ~ "51ouest",
+  (dataOK$CarreTheo == "H51BA") ~ "51ouest",
+  (dataOK$CarreTheo == "H51DA") ~ "51ouest",  
+  (dataOK$CarreTheo == "I51BA") ~ "51ouest",
+  (dataOK$CarreTheo == "I51DA") ~ "51ouest",
+  (dataOK$CarreTheo == "J51BA") ~ "51ouest",
+  (dataOK$CarreTheo == "J51DA") ~ "51ouest",
+  
+  #subsquares xB
+  (dataOK$CarreTheo == "G50AB") ~ "50est",
+  (dataOK$CarreTheo == "G50BB") ~ "50ouest",
+  (dataOK$CarreTheo == "G50CB") ~ "50est",
+  (dataOK$CarreTheo == "G50DB") ~ "50ouest",
+  (dataOK$CarreTheo == "H50AB") ~ "50est",
+  (dataOK$CarreTheo == "H50BB") ~ "50ouest",
+  (dataOK$CarreTheo == "H50CB") ~ "50est",
+  (dataOK$CarreTheo == "H50DB") ~ "50ouest",
+  (dataOK$CarreTheo == "I50AB") ~ "50est",
+  (dataOK$CarreTheo == "I50BB") ~ "50ouest",
+  (dataOK$CarreTheo == "I50CB") ~ "50est",
+  (dataOK$CarreTheo == "I50DB") ~ "50ouest",
+  (dataOK$CarreTheo == "J50AB") ~ "50est",
+  (dataOK$CarreTheo == "J50BB") ~ "50ouest",
+  (dataOK$CarreTheo == "J50CB") ~ "50est",
+  (dataOK$CarreTheo == "J50DB") ~ "50ouest",
+  (dataOK$CarreTheo == "G51AB") ~ "51est",
+  (dataOK$CarreTheo == "G51CB") ~ "51est",
+  (dataOK$CarreTheo == "H51AB") ~ "51est",
+  (dataOK$CarreTheo == "H51CB") ~ "51est",  
+  (dataOK$CarreTheo == "I51AB") ~ "51est",
+  (dataOK$CarreTheo == "I51CB") ~ "51est",
+  (dataOK$CarreTheo == "J51AB") ~ "51est",
+  (dataOK$CarreTheo == "J51CB") ~ "51est",
+  (dataOK$CarreTheo == "G51BB") ~ "51ouest",
+  (dataOK$CarreTheo == "G51DB") ~ "51ouest",
+  (dataOK$CarreTheo == "H51BB") ~ "51ouest",
+  (dataOK$CarreTheo == "H51DB") ~ "51ouest",  
+  (dataOK$CarreTheo == "I51BB") ~ "51ouest",
+  (dataOK$CarreTheo == "I51DB") ~ "51ouest",
+  (dataOK$CarreTheo == "J51BB") ~ "51ouest",
+  (dataOK$CarreTheo == "J51DB") ~ "51ouest",
+  
+  #subsquares xC
+  (dataOK$CarreTheo == "G50AC") ~ "50est",
+  (dataOK$CarreTheo == "G50BC") ~ "50ouest",
+  (dataOK$CarreTheo == "G50CC") ~ "50est",
+  (dataOK$CarreTheo == "G50DC") ~ "50ouest",
+  (dataOK$CarreTheo == "H50AC") ~ "50est",
+  (dataOK$CarreTheo == "H50BC") ~ "50ouest",
+  (dataOK$CarreTheo == "H50CC") ~ "50est",
+  (dataOK$CarreTheo == "H50DC") ~ "50ouest",
+  (dataOK$CarreTheo == "I50AC") ~ "50est",
+  (dataOK$CarreTheo == "I50BC") ~ "50ouest",
+  (dataOK$CarreTheo == "I50CC") ~ "50est",
+  (dataOK$CarreTheo == "I50DC") ~ "50ouest",
+  (dataOK$CarreTheo == "J50AC") ~ "50est",
+  (dataOK$CarreTheo == "J50BC") ~ "50ouest",
+  (dataOK$CarreTheo == "J50CC") ~ "50est",
+  (dataOK$CarreTheo == "J50DC") ~ "50ouest",
+  (dataOK$CarreTheo == "G51AC") ~ "51est",
+  (dataOK$CarreTheo == "G51CC") ~ "51est",
+  (dataOK$CarreTheo == "H51AC") ~ "51est",
+  (dataOK$CarreTheo == "H51CC") ~ "51est",  
+  (dataOK$CarreTheo == "I51AC") ~ "51est",
+  (dataOK$CarreTheo == "I51CC") ~ "51est",
+  (dataOK$CarreTheo == "J51AC") ~ "51est",
+  (dataOK$CarreTheo == "J51CC") ~ "51est",
+  (dataOK$CarreTheo == "G51BC") ~ "51ouest",
+  (dataOK$CarreTheo == "G51DC") ~ "51ouest",
+  (dataOK$CarreTheo == "H51BC") ~ "51ouest",
+  (dataOK$CarreTheo == "H51DC") ~ "51ouest",  
+  (dataOK$CarreTheo == "I51BC") ~ "51ouest",
+  (dataOK$CarreTheo == "I51DC") ~ "51ouest",
+  (dataOK$CarreTheo == "J51BC") ~ "51ouest",
+  (dataOK$CarreTheo == "J51DC") ~ "51ouest",
+  
+  #subsquares xD
+  (dataOK$CarreTheo == "G50AD") ~ "50est",
+  (dataOK$CarreTheo == "G50BD") ~ "50ouest",
+  (dataOK$CarreTheo == "G50CD") ~ "50est",
+  (dataOK$CarreTheo == "G50DD") ~ "50ouest",
+  (dataOK$CarreTheo == "H50AD") ~ "50est",
+  (dataOK$CarreTheo == "H50BD") ~ "50ouest",
+  (dataOK$CarreTheo == "H50CD") ~ "50est",
+  (dataOK$CarreTheo == "H50DD") ~ "50ouest",
+  (dataOK$CarreTheo == "I50AD") ~ "50est",
+  (dataOK$CarreTheo == "I50BD") ~ "50ouest",
+  (dataOK$CarreTheo == "I50CD") ~ "50est",
+  (dataOK$CarreTheo == "I50DD") ~ "50ouest",
+  (dataOK$CarreTheo == "J50AD") ~ "50est",
+  (dataOK$CarreTheo == "J50BD") ~ "50ouest",
+  (dataOK$CarreTheo == "J50CD") ~ "50est",
+  (dataOK$CarreTheo == "J50DD") ~ "50ouest",
+  (dataOK$CarreTheo == "G51AD") ~ "51est",
+  (dataOK$CarreTheo == "G51CD") ~ "51est",
+  (dataOK$CarreTheo == "H51AD") ~ "51est",
+  (dataOK$CarreTheo == "H51CD") ~ "51est",  
+  (dataOK$CarreTheo == "I51AD") ~ "51est",
+  (dataOK$CarreTheo == "I51CD") ~ "51est",
+  (dataOK$CarreTheo == "J51AD") ~ "51est",
+  (dataOK$CarreTheo == "J51CD") ~ "51est",
+  (dataOK$CarreTheo == "G51BD") ~ "51ouest",
+  (dataOK$CarreTheo == "G51DD") ~ "51ouest",
+  (dataOK$CarreTheo == "H51BD") ~ "51ouest",
+  (dataOK$CarreTheo == "H51DD") ~ "51ouest",  
+  (dataOK$CarreTheo == "I51BD") ~ "51ouest",
+  (dataOK$CarreTheo == "I51DD") ~ "51ouest",
+  (dataOK$CarreTheo == "J51BD") ~ "51ouest",
+  (dataOK$CarreTheo == "J51DD") ~ "51ouest",
   .default = "Others")
 
 #CALCULATING TRUE SQUARES
@@ -166,7 +302,7 @@ dataOK$Code <- case_when(
 
 #creating other columns in dataOK
 dataOK$Yminus <- -dataOK$Y
-dataOK$Annee <- "2024"
+dataOK$Annee <- "2026"
 dataOK$offsetcorr <- ""
 dataOK$posapprox <- ""
 dataOK$FabID <- ""
@@ -191,40 +327,49 @@ colnames(dataOK) <- c("Year","Filename","Point","X","Y","Yminus","Z","Code",
                       "USfield", "UA","offsetcorr", "posapprox", "Notes",
                       "FabID", "Orient", "Pendage","TrenchVrai","TrenchTheo")
 
+#exporting new bucket points
+require(xlsx)
+setwd(baseWD)
 
-#moving CSVs
-moveCSV <- function(x){
-  file.rename( from = file.path("./csv_to_import", x) ,
-               to = file.path("./csv_imported", x) )
-}
-
-lapply(listCSV, moveCSV)
-
+## creating a simple table of bucket points ready to import in the FMP bucket database
+dataNEWBUCKET <- dataOK %>%
+  filter(Code =="SEAU") %>%
+  select(Point) %>%
+  mutate(G16_m_statut = "Non") %>%
+  mutate(G16_n_statut = "Non") %>%
+  mutate(I16_Statut16microf = "Non") %>%
+  mutate(I16_Statut16silex = "Non") %>%
+  mutate(I4_Statut4decomptes = "Non") %>%
+  mutate(I4_Statut4granulo = "Non") %>%
+  mutate(I4_Statut4pes = "Non") %>%
+  mutate(PourImpr = "Oui")
+  
+write.xlsx(as.data.frame(dataNEWBUCKET),"CG26_seaux_new.xlsx", showNA = F, row.names = F)
 
 #import data previously imported
 #be sure to change the filename with the appropriate Excel file (full database)
 #ATTENTION: in the process, some sheets of that Excel file will be deleted (the script returns which ones)
-if(file.exists("CG24_THEO.xlsx")){
+if(file.exists("CG26_THEO.xlsx")){
   library(readxl)
-  previous_dataOK <- read_excel("CG24_THEO.xlsx", sheet = "dataOK", 
+  previous_dataOK <- read_excel("CG26_THEO.xlsx", sheet = "dataOK", 
                                 col_types = c(rep("text",3),
                                               rep("numeric",4), 
                                               rep("text",10),
                                               rep("numeric",2),
                                               rep("text",2)))
-  previous_dataTOPO <- read_excel("CG24_THEO.xlsx", sheet = "dataTOPO")
-  previous_dataCOIN <- read_excel("CG24_THEO.xlsx", sheet = "dataCOIN")
-  list_sheets <- excel_sheets("CG24_THEO.xlsx")
+  previous_dataTOPO <- read_excel("CG26_THEO.xlsx", sheet = "dataTOPO")
+  previous_dataCOIN <- read_excel("CG26_THEO.xlsx", sheet = "dataCOIN")
+  list_sheets <- excel_sheets("CG26_THEO.xlsx")
   list_sheets <- list_sheets[list_sheets != "dataOK"]
   list_sheets <- list_sheets[list_sheets != "dataTOPO"]
   list_sheets <- list_sheets[list_sheets != "dataCOIN"]
   list_sheets <- list_sheets[list_sheets != "notes"]
-  notes <- read_excel("CG24_THEO.xlsx", sheet = "notes")
   print("ATTENTION: the following sheets won't be imported:")
   print(list_sheets)
   dataOK <- rbind(previous_dataOK, dataOK)
   dataTOPO <- rbind(previous_dataTOPO, dataTOPO)
   dataCOIN <- rbind(previous_dataCOIN, dataCOIN)
+  notes <- read_excel("CG26_THEO.xlsx", sheet = "notes")
 }
 
 #use the following lines if you are not importing new data, but want to edit your full database
@@ -235,15 +380,37 @@ if(file.exists("CG24_THEO.xlsx")){
 # rm(previous_dataTOPO)
 # rm(previous_dataCOIN)
 
+#formatting some data columns to appropriate classes
+dataOK$Year <- as.numeric(dataOK$Year)
+dataOK$Point <- as.numeric(dataOK$Point)
+dataOK$Filename <- as.character(dataOK$Filename)
+dataTOPO$Filename <- as.character(dataTOPO$Filename)
+dataCOIN$Filename <- as.character(dataCOIN$Filename)
+
+#sorting by point number
+dataOK <- dataOK %>%
+  arrange(Point)
+dataCOIN <- dataCOIN %>%
+  arrange(Point)
+dataTOPO <- dataTOPO %>%
+  arrange(Point)
+
 #writing Excel file
-require(WriteXLS)
+require(xlsx)
 setwd(baseWD)
-WriteXLS(c("dataOK","dataTOPO","dataCOIN","notes"),"CG24_THEO.xlsx")
+write.xlsx(as.data.frame(dataOK),"CG26_THEOnew.xlsx", sheetName="dataOK", row.names = F, showNA = F)
+write.xlsx(as.data.frame(dataTOPO),"CG26_THEOnew.xlsx", sheetName="dataTOPO", row.names = F, append = T,  showNA = F)
+write.xlsx(as.data.frame(dataCOIN),"CG26_THEOnew.xlsx", sheetName="dataCOIN", row.names = F, append = T,  showNA = F)
+write.xlsx(as.data.frame(notes),"CG26_THEOnew.xlsx", sheetName="notes", row.names = F, append = T, showNA = F)
 
-#exporting bucket points
-require(WriteXLS)
-WriteXLS(filter(dataOK, Code =="SEAU"),"CG24_seaux.xlsx")
 
+#moving CSVs
+moveCSV <- function(x){
+  file.rename( from = file.path("./csv_to_import", x) ,
+               to = file.path("./csv_imported", x) )
+}
+
+lapply(listCSV, moveCSV)
 
 ##RUNNING SEAHORS for checking
 require("SEAHORS")
